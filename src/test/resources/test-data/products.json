@@ -1,0 +1,20 @@
+{
+  "samsungGalaxyS6": {
+    "id": 1,
+    "name": "Samsung galaxy s6",
+    "price": 360,
+    "category": "PHONES"
+  },
+  "nokiaLumia1520": {
+    "id": 2,
+    "name": "Nokia lumia 1520",
+    "price": 820,
+    "category": "PHONES"
+  },
+  "macBookPro": {
+    "id": 15,
+    "name": "MacBook Pro",
+    "price": 1100,
+    "category": "LAPTOPS"
+  }
+}
