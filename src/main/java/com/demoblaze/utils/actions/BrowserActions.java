@@ -31,6 +31,12 @@ public class BrowserActions {
         return driver.getCurrentUrl();
     }
 
+    public String getTitle() {
+        String title = driver.getTitle();
+        LogsManager.debug("Page title:", title);
+        return title;
+    }
+
     public BrowserActions navigateTo(String url) {
         driver.get(url);
         LogsManager.info("Navigated to:", url);

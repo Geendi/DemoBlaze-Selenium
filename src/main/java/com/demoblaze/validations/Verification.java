@@ -1,13 +1,8 @@
 package com.demoblaze.validations;
 
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 public class Verification extends Assertion {
-
-    public Verification(WebDriver driver) {
-        super(driver);
-    }
 
     @Override
     public Verification assertTrue(boolean condition, String message) {

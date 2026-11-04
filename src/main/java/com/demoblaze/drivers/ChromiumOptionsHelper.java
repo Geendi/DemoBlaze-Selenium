@@ -12,12 +12,9 @@ final class ChromiumOptionsHelper {
         options.addArguments("--disable-notifications");
         options.addArguments("--disable-popup-blocking");
         options.addArguments("--disable-extensions");
-        if (DriverConfig.isHeadless()) {
-            options.addArguments("--headless=new",
-                    "--window-size=" + DriverConfig.WINDOW_WIDTH + "," + DriverConfig.WINDOW_HEIGHT);
-        } else {
-            options.addArguments("--start-maximized");
-        }
+        options.addArguments("--window-size=" + DriverConfig.WINDOW_WIDTH + "," + DriverConfig.WINDOW_HEIGHT);
+        if (DriverConfig.isHeadless())
+            options.addArguments("--headless=new");
         options.setAcceptInsecureCerts(true);
         options.setPageLoadStrategy(PageLoadStrategy.EAGER);
         return options;

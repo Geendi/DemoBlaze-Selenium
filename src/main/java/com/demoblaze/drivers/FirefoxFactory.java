@@ -1,5 +1,6 @@
 package com.demoblaze.drivers;
 
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -23,7 +24,8 @@ public class FirefoxFactory implements DriverFactory {
     public WebDriver createDriver() {
         WebDriver driver = new FirefoxDriver(options());
         if (!DriverConfig.isHeadless())
-            driver.manage().window().maximize();
+            driver.manage().window().setSize(new Dimension(
+                    Integer.parseInt(DriverConfig.WINDOW_WIDTH), Integer.parseInt(DriverConfig.WINDOW_HEIGHT)));
         return driver;
     }
 }

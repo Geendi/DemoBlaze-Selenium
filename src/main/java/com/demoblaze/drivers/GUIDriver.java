@@ -28,8 +28,8 @@ public class GUIDriver {
         this.browserActions = new BrowserActions(this.driver);
         this.alertActions = new AlertActions(this.driver);
         this.frameActions = new FrameActions(this.driver);
-        this.validation = new Validation(this.driver);
-        this.verification = new Verification(this.driver);
+        this.validation = new Validation();
+        this.verification = new Verification();
     }
 
     public static GUIDriver start(DriverFactory driverFactory) {

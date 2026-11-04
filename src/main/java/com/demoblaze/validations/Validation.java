@@ -1,14 +1,9 @@
 package com.demoblaze.validations;
 
-import org.openqa.selenium.WebDriver;
 import org.testng.asserts.SoftAssert;
 
 public class Validation extends Assertion {
     private static final ThreadLocal<SoftAssert> SOFT_ASSERT = ThreadLocal.withInitial(SoftAssert::new);
-
-    public Validation(WebDriver driver) {
-        super(driver);
-    }
 
     public static void assertAll() {
         try {
