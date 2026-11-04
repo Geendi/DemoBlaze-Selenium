@@ -26,6 +26,7 @@ public class BrowserActions {
         try {
             waitManager.fluentWait().until(ExpectedConditions.urlContains(expectedUrlPart));
         } catch (TimeoutException e) {
+            LogsManager.warn("URL does not contain", expectedUrlPart, "after waiting. Current URL:", driver.getCurrentUrl());
         }
         return driver.getCurrentUrl();
     }

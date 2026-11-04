@@ -4,6 +4,7 @@ import com.demoblaze.utils.actions.AlertActions;
 import com.demoblaze.utils.actions.BrowserActions;
 import com.demoblaze.utils.actions.ElementActions;
 import com.demoblaze.utils.actions.FrameActions;
+import com.demoblaze.utils.media.ScreenshotManager;
 import com.demoblaze.validations.Validation;
 import com.demoblaze.validations.Verification;
 import org.openqa.selenium.WebDriver;
@@ -41,8 +42,8 @@ public class GUIDriver {
         return CURRENT.get();
     }
 
-    public WebDriver webDriver() {
-        return driver;
+    public void takeScreenshot(String name) {
+        ScreenshotManager.takeScreenshot(driver, name);
     }
 
     public void quitDriver() {

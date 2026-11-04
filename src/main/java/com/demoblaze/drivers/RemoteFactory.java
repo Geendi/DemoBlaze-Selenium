@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 
 public class RemoteFactory implements DriverFactory {
     private static final HttpClient HTTP = HttpClient.newHttpClient();
-    private static final Pattern READY = Pattern.compile("\"ready\"\s*:\s*true");
+    private static final Pattern READY = Pattern.compile("\"ready\"\\s*:\\s*true");
     private static volatile boolean gridReady;
 
     @Override

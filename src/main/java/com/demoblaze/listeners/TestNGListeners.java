@@ -5,7 +5,6 @@ import com.demoblaze.utils.constants.PathConstants;
 import com.demoblaze.utils.data.PropertyReader;
 import com.demoblaze.utils.files.FileHelper;
 import com.demoblaze.utils.logs.LogsManager;
-import com.demoblaze.utils.media.ScreenshotManager;
 import com.demoblaze.utils.reports.AllureAttachmentManager;
 import com.demoblaze.utils.reports.AllureBinaryManager;
 import com.demoblaze.utils.reports.AllureEnvironmentManager;
@@ -52,7 +51,7 @@ public class TestNGListeners implements IInvokedMethodListener, ITestListener, I
 
         GUIDriver driver = GUIDriver.current();
         if (driver != null && !testResult.isSuccess()) {
-            ScreenshotManager.takeScreenshot(driver.webDriver(), testResult.getName());
+            driver.takeScreenshot(testResult.getName());
             AllureAttachmentManager.attachLogs();
         }
     }
