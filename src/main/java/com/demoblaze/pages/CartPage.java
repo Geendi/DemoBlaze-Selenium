@@ -16,9 +16,7 @@ public class CartPage {
 
     public CartPage(GUIDriver driver) {
         this.driver = driver;
-        String url = driver.browser().waitForUrlContains("cart.html");
-        if (!url.contains("cart.html"))
-            throw new IllegalStateException("Expected the cart page, but the browser is on " + url);
+        driver.browser().waitForUrlContains("cart.html");
     }
 
     public NavBar navBar() {

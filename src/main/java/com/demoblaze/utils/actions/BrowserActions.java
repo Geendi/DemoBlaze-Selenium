@@ -3,7 +3,6 @@ package com.demoblaze.utils.actions;
 import com.demoblaze.utils.logs.LogsManager;
 import com.demoblaze.utils.waits.WaitManager;
 import org.openqa.selenium.Cookie;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WindowType;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -17,17 +16,10 @@ public class BrowserActions {
         this.waitManager = new WaitManager(driver);
     }
 
-    public BrowserActions maximizeWindow() {
-        driver.manage().window().maximize();
-        return this;
-    }
-
     public String waitForUrlContains(String expectedUrlPart) {
-        try {
-            waitManager.fluentWait().until(ExpectedConditions.urlContains(expectedUrlPart));
-        } catch (TimeoutException e) {
-            LogsManager.warn("URL does not contain", expectedUrlPart, "after waiting. Current URL:", driver.getCurrentUrl());
-        }
+        waitManager.fluentWait()
+                .withMessage(() -> "URL does not contain '" + expectedUrlPart + "'. Current URL: " + driver.getCurrentUrl())
+                .until(ExpectedConditions.urlContains(expectedUrlPart));
         return driver.getCurrentUrl();
     }
 
