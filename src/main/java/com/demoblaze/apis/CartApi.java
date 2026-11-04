@@ -26,12 +26,23 @@ public final class CartApi {
         waitUntilInCart(userCookie, rowId);
     }
     
+    public static void waitUntilEmpty(String userCookie) {
+        new FluentWait<>(viewCartBody(userCookie))
+                .withTimeout(WaitManager.timeout())
+                .pollingEvery(Duration.ofMillis(500))
+                .withMessage("the cart to be empty in /viewcart")
+                .until(b -> ApiClient.post("/viewcart", b).jsonPath().getList("Items").isEmpty());
+    }
+
     private static void waitUntilInCart(String userCookie, String rowId) {
-        Map<String, Object> body = Map.of("cookie", "user=" + userCookie, "flag", false);
-        new FluentWait<>(body)
+        new FluentWait<>(viewCartBody(userCookie))
                 .withTimeout(WaitManager.timeout())
                 .pollingEvery(Duration.ofMillis(500))
                 .withMessage("cart row " + rowId + " to show in /viewcart")
                 .until(b -> ApiClient.post("/viewcart", b).asString().contains(rowId));
+    }
+
+    private static Map<String, Object> viewCartBody(String userCookie) {
+        return Map.of("cookie", "user=" + userCookie, "flag", false);
     }
 }

@@ -36,10 +36,7 @@ public class CheckoutTest extends BaseTest {
     @Test(groups = "regression", description = "The cart is empty after a purchase")
     public void cartIsEmptyAfterPurchase() {
         List<String> names = new CheckoutFlow(driver())
-                .buy(TestData.productId("samsungGalaxyS6"), TestData.order("validOrder"))
-                .confirm()
-                .navBar()
-                .openCart()
+                .buyAndOpenCart(TestData.productId("samsungGalaxyS6"), TestData.order("validOrder"))
                 .getProductNames();
 
         driver().verification().assertTrue(names.isEmpty(), "Cart after purchase: " + names);

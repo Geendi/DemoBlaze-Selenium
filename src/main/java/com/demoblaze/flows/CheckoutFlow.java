@@ -26,5 +26,11 @@ public class CheckoutFlow {
     public PurchaseConfirmation buy(int productId, OrderData order) {
         return addToCart(productId).openCart().placeOrderModal().purchase(order);
     }
+
+    public CartPage buyAndOpenCart(int productId, OrderData order) {
+        buy(productId, order).confirm();
+        CartApi.waitUntilEmpty(driver.browser().getCookie("user"));
+        return openCart();
+    }
 }
 

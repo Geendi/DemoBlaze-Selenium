@@ -35,6 +35,7 @@ public class CartPage {
     }
 
     public PlaceOrderModal placeOrderModal() {
+        getTotal();
         driver.elementActions().click(placeOrderButton);
         return new PlaceOrderModal(driver);
     }
