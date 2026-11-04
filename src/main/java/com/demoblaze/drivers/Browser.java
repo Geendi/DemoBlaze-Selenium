@@ -2,6 +2,7 @@ package com.demoblaze.drivers;
 
 import com.demoblaze.utils.data.PropertyReader;
 
+import java.util.Arrays;
 import java.util.function.Supplier;
 
 public enum Browser {
@@ -25,7 +26,12 @@ public enum Browser {
         String browser = PropertyReader.getProperty("browserType");
         if (browser == null || browser.isBlank())
             throw new IllegalStateException("browserType is not set in webApp.properties");
-        return valueOf(browser.trim().toUpperCase());
+        try {
+            return valueOf(browser.trim().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalStateException("browserType '" + browser + "' is not supported. Use one of: "
+                    + Arrays.toString(values()).toLowerCase(), e);
+        }
     }
 
     public DriverFactory getDriverFactory() {
