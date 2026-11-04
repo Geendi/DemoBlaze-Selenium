@@ -31,7 +31,7 @@ public class CartTest extends BaseTest {
                 .openCart()
                 .getTotal();
 
-        driver().verification().assertEquals(String.valueOf(total), String.valueOf(expected), "Cart total");
+        driver().verification().assertEquals(total, expected, "Cart total");
     }
 
     @Test(groups = "regression", description = "Delete removes only that product")

@@ -1,13 +1,9 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<!-- TestNGListeners is registered by META-INF/services, so it is not listed here -->
-<!-- Each test class runs in its own thread (methods inside a class stay sequential), at most 2 browsers at once.
-     For a different setup on one run, use the command line: mvn test -Dtest=LoginTest -Dparallel=methods -DthreadCount=3 -->
 <suite name="DemoBlaze" parallel="classes" thread-count="2">
     <test name="All">
         <groups>
             <run>
                 <include name="regression"/>
-                <!-- Flaky tests go to "quarantine" until their root cause is fixed (§12) -->
                 <exclude name="quarantine"/>
             </run>
         </groups>

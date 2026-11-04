@@ -26,4 +26,10 @@ public class Verification extends Assertion {
         Assert.assertEquals(actual, expected, message);
         return this;
     }
+
+    @Override
+    public Verification assertEquals(int actual, int expected, String message) {
+        Assert.assertEquals(actual, expected, message);
+        return this;
+    }
 }

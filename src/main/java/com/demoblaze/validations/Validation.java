@@ -35,4 +35,10 @@ public class Validation extends Assertion {
         SOFT_ASSERT.get().assertEquals(actual, expected, message);
         return this;
     }
+
+    @Override
+    public Validation assertEquals(int actual, int expected, String message) {
+        SOFT_ASSERT.get().assertEquals(actual, expected, message);
+        return this;
+    }
 }

@@ -16,6 +16,9 @@ public class CartPage {
 
     public CartPage(GUIDriver driver) {
         this.driver = driver;
+        String url = driver.browser().waitForUrlContains("cart.html");
+        if (!url.contains("cart.html"))
+            throw new IllegalStateException("Expected the cart page, but the browser is on " + url);
     }
 
     public NavBar navBar() {
@@ -27,7 +30,7 @@ public class CartPage {
     }
 
     public int getTotal() {
-        String text = driver.elementActions().getText(total).trim();
+        String text = driver.elementActions().getNonEmptyText(total);
         return Integer.parseInt(text);
     }
 

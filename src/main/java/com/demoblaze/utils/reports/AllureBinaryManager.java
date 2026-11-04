@@ -5,15 +5,23 @@ import com.demoblaze.utils.logs.LogsManager;
 import com.demoblaze.utils.system.OSUtils;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.time.Duration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public final class AllureBinaryManager {
+    private static final HttpClient HTTP = HttpClient.newBuilder()
+            .connectTimeout(Duration.ofSeconds(30))
+            .followRedirects(HttpClient.Redirect.NORMAL)
+            .build();
+
     private AllureBinaryManager() {
     }
 
@@ -53,8 +61,14 @@ public final class AllureBinaryManager {
     private static Path downloadZip(String version) throws Exception {
         String url = AllureConstant.ALLURE_ZIP_BASE_URL + version + "/allure-commandline-" + version + ".zip";
         Path zipFile = AllureConstant.EXTRACTION_DIR.resolve("allure-" + version + ".zip");
-        try (InputStream in = new URI(url).toURL().openStream()) {
-            Files.copy(in, zipFile, StandardCopyOption.REPLACE_EXISTING);
+        HttpRequest request = HttpRequest.newBuilder(URI.create(url))
+                .timeout(Duration.ofMinutes(2))
+                .GET()
+                .build();
+        HttpResponse<Path> response = HTTP.send(request, HttpResponse.BodyHandlers.ofFile(zipFile));
+        if (response.statusCode() != 200) {
+            Files.deleteIfExists(zipFile);
+            throw new IOException("Allure download failed with status " + response.statusCode() + ": " + url);
         }
         return zipFile;
     }

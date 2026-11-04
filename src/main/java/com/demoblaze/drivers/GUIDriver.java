@@ -9,9 +9,8 @@ import com.demoblaze.validations.Verification;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ThreadGuard;
 
-
 public class GUIDriver {
-    private static final ThreadLocal<WebDriver> DRIVER_THREAD_LOCAL = new ThreadLocal<>();
+    private static final ThreadLocal<GUIDriver> CURRENT = new ThreadLocal<>();
 
     private final WebDriver driver;
     private final ElementActions elementActions;
@@ -21,9 +20,8 @@ public class GUIDriver {
     private final Validation validation;
     private final Verification verification;
 
-    public GUIDriver(DriverFactory driverFactory) {
+    private GUIDriver(DriverFactory driverFactory) {
         this.driver = ThreadGuard.protect(driverFactory.createDriver());
-        DRIVER_THREAD_LOCAL.set(this.driver);
 
         this.elementActions = new ElementActions(this.driver);
         this.browserActions = new BrowserActions(this.driver);
@@ -33,13 +31,26 @@ public class GUIDriver {
         this.verification = new Verification(this.driver);
     }
 
-    public static WebDriver getDriver() {
-        return DRIVER_THREAD_LOCAL.get();
+    public static GUIDriver start(DriverFactory driverFactory) {
+        GUIDriver guiDriver = new GUIDriver(driverFactory);
+        CURRENT.set(guiDriver);
+        return guiDriver;
+    }
+
+    public static GUIDriver current() {
+        return CURRENT.get();
+    }
+
+    public WebDriver webDriver() {
+        return driver;
     }
 
     public void quitDriver() {
-        driver.quit();
-        DRIVER_THREAD_LOCAL.remove();
+        try {
+            driver.quit();
+        } finally {
+            CURRENT.remove();
+        }
     }
 
     public AlertActions alertActions() {

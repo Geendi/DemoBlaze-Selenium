@@ -31,13 +31,17 @@ public class ElementActions {
     }
 
     public ElementActions clearAndType(By locator, String text) {
+        return clearAndType(locator, text, text);
+    }
+
+    public ElementActions clearAndType(By locator, String text, String expectedValue) {
         waitManager.fluentWait().until(d -> {
             WebElement element = ExpectedConditions.visibilityOfElementLocated(locator).apply(d);
             if (element == null) return false;
             scrollToElement(element);
             element.clear();
             element.sendKeys(text);
-            return text.equals(element.getDomProperty("value"));
+            return expectedValue.equals(element.getDomProperty("value"));
         });
         LogsManager.debug("Typed text:", text, "into element:", locator.toString());
         return this;
@@ -47,6 +51,17 @@ public class ElementActions {
         WebElement element = waitManager.fluentWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
         scrollToElement(element);
         String text = element.getText();
+        LogsManager.debug("Retrieved text from element:", locator.toString(), "Text:", text);
+        return text;
+    }
+
+    public String getNonEmptyText(By locator) {
+        String text = waitManager.fluentWait().until(d -> {
+            WebElement element = ExpectedConditions.visibilityOfElementLocated(locator).apply(d);
+            if (element == null) return null;
+            String value = element.getText().trim();
+            return value.isEmpty() ? null : value;
+        });
         LogsManager.debug("Retrieved text from element:", locator.toString(), "Text:", text);
         return text;
     }
@@ -67,6 +82,15 @@ public class ElementActions {
     public boolean isDisplayed(By locator) {
         try {
             waitManager.fluentWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
+    public boolean isNotDisplayed(By locator) {
+        try {
+            waitManager.fluentWait().until(ExpectedConditions.invisibilityOfElementLocated(locator));
             return true;
         } catch (TimeoutException e) {
             return false;
@@ -98,7 +122,7 @@ public class ElementActions {
         waitManager.fluentWait().until(new ExpectedCondition<Boolean>() {
             @Override
             public Boolean apply(WebDriver d) {
-                if (!d.findElement(disappearingLocator).isDisplayed()) return true;
+                if (ExpectedConditions.invisibilityOfElementLocated(disappearingLocator).apply(d)) return true;
                 d.findElement(locator).click();
                 return false;
             }

@@ -49,5 +49,4 @@ public class LoginTest extends BaseTest {
         driver().verification().assertTrue(home.navBar().isLoggedOut(), "Log in link after logout");
     }
 
-
 }

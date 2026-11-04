@@ -1,8 +1,8 @@
 package com.demoblaze.utils.data;
 
-import com.demoblaze.utils.logs.LogsManager;
-
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.util.Properties;
 
 public final class PropertyReader {
@@ -18,8 +18,8 @@ public final class PropertyReader {
                 if (in == null)
                     throw new IllegalStateException("Properties file not found on classpath: " + file);
                 properties.load(in);
-            } catch (Exception e) {
-                LogsManager.error("Error loading properties file:", file, e.getMessage());
+            } catch (IOException e) {
+                throw new UncheckedIOException("Could not read properties file: " + file, e);
             }
         }
         properties.putAll(System.getProperties());

@@ -1,6 +1,7 @@
 package com.demoblaze.tests;
 
 import com.demoblaze.pages.HomePage;
+import com.demoblaze.tests.data.TestData;
 import org.testng.annotations.Test;
 
 public class ContactTest extends BaseTest {
@@ -10,7 +11,7 @@ public class ContactTest extends BaseTest {
         String alert = new HomePage(driver())
                 .navBar()
                 .openContactUs()
-                .sendMessage("ahmed@example.com", "Ahmed", "Test message");
+                .sendMessage(TestData.contactMessage("validMessage"));
 
         driver().verification().assertEquals(alert, "Thanks for the message!!", "Contact alert");
     }

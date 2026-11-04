@@ -1,6 +1,7 @@
 package com.demoblaze.pages.components;
 
 import com.demoblaze.drivers.GUIDriver;
+import com.demoblaze.models.ContactMessage;
 import com.demoblaze.pages.HomePage;
 import org.openqa.selenium.By;
 
@@ -18,11 +19,11 @@ public class ContactModal {
         this.driver = driver;
     }
 
-    public String sendMessage(String email, String name, String message){
+    public String sendMessage(ContactMessage contact) {
         driver.elementActions()
-                .clearAndType(emailInput, email)
-                .clearAndType(nameInput, name)
-                .clearAndType(messageInput, message)
+                .clearAndType(emailInput, contact.email())
+                .clearAndType(nameInput, contact.name())
+                .clearAndType(messageInput, contact.message())
                 .click(sendButton);
         return driver.alertActions().getTextAndAccept();
     }

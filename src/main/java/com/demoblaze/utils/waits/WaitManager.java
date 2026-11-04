@@ -4,7 +4,6 @@ import com.demoblaze.utils.data.PropertyReader;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.FluentWait;
 
-
 import java.time.Duration;
 import java.util.ArrayList;
 
@@ -17,17 +16,17 @@ public class WaitManager {
 
     public FluentWait<WebDriver> fluentWait() {
         return new FluentWait<>(driver)
-                .withTimeout(Duration.ofSeconds(getTimeoutSeconds()))
+                .withTimeout(timeout())
                 .pollingEvery(Duration.ofMillis(100))
                 .ignoreAll(getExceptions());
     }
 
-    private int getTimeoutSeconds() {
+    public static Duration timeout() {
         String value = PropertyReader.getProperty("fluentWaitSeconds");
         if (value == null || value.isBlank())
             throw new IllegalStateException("fluentWaitSeconds is not set in webApp.properties");
         try {
-            return Integer.parseInt(value.trim());
+            return Duration.ofSeconds(Integer.parseInt(value.trim()));
         } catch (NumberFormatException e) {
             throw new IllegalStateException("fluentWaitSeconds must be a number, but was: " + value, e);
         }

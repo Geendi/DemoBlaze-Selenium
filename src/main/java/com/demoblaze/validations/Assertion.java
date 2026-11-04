@@ -4,7 +4,10 @@ import com.demoblaze.utils.waits.WaitManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.util.List;
 
 public abstract class Assertion {
     protected final WebDriver driver;
@@ -20,6 +23,8 @@ public abstract class Assertion {
     public abstract Assertion assertFalse(boolean condition, String message);
 
     public abstract Assertion assertEquals(String actual, String expected, String message);
+
+    public abstract Assertion assertEquals(int actual, int expected, String message);
 
     public Assertion isElementVisible(By locator) {
         boolean visible;
@@ -53,7 +58,10 @@ public abstract class Assertion {
             waitManager.fluentWait().until(ExpectedConditions.textToBe(locator, expectedText));
         } catch (TimeoutException e) {
         }
-        return assertEquals(driver.findElement(locator).getText(), expectedText, "Text mismatch for " + locator);
+        List<WebElement> elements = driver.findElements(locator);
+        if (elements.isEmpty())
+            return assertTrue(false, "Element not found: " + locator);
+        return assertEquals(elements.get(0).getText(), expectedText, "Text mismatch for " + locator);
     }
 
     public Assertion assertElementTextContains(By locator, String expectedPart) {
@@ -61,7 +69,10 @@ public abstract class Assertion {
             waitManager.fluentWait().until(ExpectedConditions.textToBePresentInElementLocated(locator, expectedPart));
         } catch (TimeoutException e) {
         }
-        String actual = driver.findElement(locator).getText();
+        List<WebElement> elements = driver.findElements(locator);
+        if (elements.isEmpty())
+            return assertTrue(false, "Element not found: " + locator);
+        String actual = elements.get(0).getText();
         return assertTrue(actual.contains(expectedPart),
                 "Text of " + locator + " is '" + actual + "', expected to contain '" + expectedPart + "'");
     }

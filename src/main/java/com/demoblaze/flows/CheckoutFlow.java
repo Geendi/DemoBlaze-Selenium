@@ -10,7 +10,6 @@ import com.demoblaze.pages.components.PurchaseConfirmation;
 public class CheckoutFlow {
     private final GUIDriver driver;
 
-
     public CheckoutFlow(GUIDriver driver) {
         this.driver = driver;
     }
@@ -20,7 +19,6 @@ public class CheckoutFlow {
         return this;
     }
 
-    // The cart page loads its rows from the server, so it shows what the API added
     public CartPage openCart() {
         return new NavBar(driver).openCart();
     }

@@ -16,7 +16,6 @@ public class NavBar {
     private final By logoutLink = By.id("logout2");
     private final By welcomeUser = By.id("nameofuser");
 
-
     public NavBar(GUIDriver driver) {
         this.driver = driver;
     }

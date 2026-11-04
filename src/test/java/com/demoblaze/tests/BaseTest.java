@@ -12,29 +12,25 @@ import org.testng.annotations.BeforeMethod;
 import java.lang.reflect.Method;
 
 public abstract class BaseTest {
-    private static final ThreadLocal<GUIDriver> DRIVER = new ThreadLocal<>();
-
     protected GUIDriver driver() {
-        return DRIVER.get();
+        return GUIDriver.current();
     }
 
     @BeforeMethod(alwaysRun = true)
     public void setUp(Method method) {
         LogsManager.startTest(method.getName());
-        DRIVER.set(new GUIDriver(Browser.fromConfig()));
-        driver().browser().navigateTo(PropertyReader.getProperty("baseUrlWeb"));
+        GUIDriver.start(Browser.fromConfig())
+                .browser()
+                .navigateTo(PropertyReader.getProperty("baseUrlWeb"));
     }
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
-        GUIDriver guiDriver = DRIVER.get();
+        GUIDriver guiDriver = GUIDriver.current();
         if (guiDriver != null) guiDriver.quitDriver();
-        DRIVER.remove();
         LogsManager.endTest();
     }
 
-    // Precondition through the API (§12): faster than the sign up modal, and it never hits the site's
-    // broken-modal bug. Returns the new username, so each test keeps its own in a local variable
     protected String createUser() {
         String username = TestData.uniqueUsername();
         UserApi.signUp(username, TestData.password());

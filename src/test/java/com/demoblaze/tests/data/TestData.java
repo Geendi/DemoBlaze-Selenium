@@ -1,6 +1,7 @@
 package com.demoblaze.tests.data;
 
 import com.demoblaze.models.Category;
+import com.demoblaze.models.ContactMessage;
 import com.demoblaze.models.OrderData;
 import com.demoblaze.utils.data.JsonReader;
 import com.demoblaze.utils.logs.LogsManager;
@@ -13,6 +14,7 @@ public final class TestData {
     private static final JsonReader PRODUCTS = new JsonReader("test-data/products");
     private static final JsonReader USERS = new JsonReader("test-data/users");
     private static final JsonReader ORDERS = new JsonReader("test-data/orders");
+    private static final JsonReader CONTACT = new JsonReader("test-data/contact");
     private static final AtomicInteger USER_COUNTER = new AtomicInteger();
 
     private TestData() {
@@ -55,6 +57,14 @@ public final class TestData {
                 ORDERS.getJsonData(path + "card"),
                 ORDERS.getJsonData(path + "month"),
                 ORDERS.getJsonData(path + "year"));
+    }
+
+    public static ContactMessage contactMessage(String key) {
+        String path = "$." + key + ".";
+        return new ContactMessage(
+                CONTACT.getJsonData(path + "email"),
+                CONTACT.getJsonData(path + "name"),
+                CONTACT.getJsonData(path + "message"));
     }
 
     public static String uniqueUsername() {

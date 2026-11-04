@@ -25,7 +25,7 @@ public class ProductPage {
     }
 
     public int getPrice() {
-        String text = driver.elementActions().getText(productPrice);
+        String text = driver.elementActions().getNonEmptyText(productPrice);
         return Integer.parseInt(text.replaceFirst("^\\$(\\d+).*$", "$1"));
     }
 }

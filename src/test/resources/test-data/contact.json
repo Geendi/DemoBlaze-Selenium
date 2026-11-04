@@ -1,0 +1,7 @@
+{
+  "validMessage": {
+    "email": "ahmed@example.com",
+    "name": "Ahmed",
+    "message": "Test message"
+  }
+}

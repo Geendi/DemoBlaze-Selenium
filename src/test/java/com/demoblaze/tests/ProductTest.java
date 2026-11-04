@@ -22,7 +22,7 @@ public class ProductTest extends BaseTest {
                 .openProduct(productName)
                 .getPrice();
 
-        driver().verification().assertEquals(String.valueOf(actual), String.valueOf(price), "Price of " + productName);
+        driver().verification().assertEquals(actual, price, "Price of " + productName);
     }
 
     @Test(groups = {"smoke", "regression"}, description = "Add to cart shows the confirmation alert")

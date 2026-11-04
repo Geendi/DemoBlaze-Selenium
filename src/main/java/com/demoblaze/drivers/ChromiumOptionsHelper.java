@@ -3,7 +3,6 @@ package com.demoblaze.drivers;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.chromium.ChromiumOptions;
 
-
 final class ChromiumOptionsHelper {
     private ChromiumOptionsHelper() {
     }

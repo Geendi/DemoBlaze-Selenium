@@ -11,11 +11,9 @@ import com.demoblaze.utils.reports.AllureBinaryManager;
 import com.demoblaze.utils.reports.AllureEnvironmentManager;
 import com.demoblaze.utils.reports.AllureReportGenerator;
 import com.demoblaze.validations.Validation;
-import org.openqa.selenium.WebDriver;
 import org.testng.*;
 
 import java.nio.file.Files;
-
 
 public class TestNGListeners implements IInvokedMethodListener, ITestListener, IExecutionListener {
 
@@ -52,9 +50,9 @@ public class TestNGListeners implements IInvokedMethodListener, ITestListener, I
             }
         }
 
-        WebDriver driver = GUIDriver.getDriver();
+        GUIDriver driver = GUIDriver.current();
         if (driver != null && !testResult.isSuccess()) {
-            ScreenshotManager.takeScreenshot(driver, testResult.getName());
+            ScreenshotManager.takeScreenshot(driver.webDriver(), testResult.getName());
             AllureAttachmentManager.attachLogs();
         }
     }
